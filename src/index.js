@@ -1,17 +1,103 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import PropTypes from 'prop-types';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+var testEmail = {
+  subject: "React Newsletter",
+  title: "React Newsletter - Issue 36",
+  date: "July 15",
+  message: "React Newsletter Issue 36 - July15th 2016 Read this issue on the web."
+};
+
+const Checkbox = () => (
+  <input className="checkbox" type="checkbox" />
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const Pin = () => (
+  <i className="fas fa-map-pin" />
+);
+
+function ActionBox() {
+  return (
+    <span className="actions">
+      <Checkbox />
+      <Pin />
+    </span>
+  );
+};
+
+const Subject = ({ subject }) => (
+  <span className="subject">
+    { subject }
+  </span>
+);
+
+const Title = ({ title }) => (
+  <span className="title">
+    { title }
+  </span>
+);
+
+const Date = ({ date }) => (
+  <span className="date">
+    { date }
+  </span>
+);
+
+const Message = ({ message }) => (
+  <div className="message">
+    { message }
+  </div>
+);
+
+function ContentBox({ email }) {
+  return (
+    <span className="content">
+      <div className="header">
+        <Subject subject={ email.subject } />
+        <Title title={ email.title } />
+        <Date date={ email.date } />
+      </div>
+      <Message message={ email.message } />
+    </span>
+  );
+}
+
+function Email({ info }) {
+  return (
+    <div className="email">
+      <ActionBox />
+      <ContentBox email={ info } />
+    </div>
+  );
+}
+
+Email.propTypes = {
+  info: PropTypes.object
+};
+
+ContentBox.propTypes = {
+  email: PropTypes.object
+};
+
+Message.propTypes = {
+  message: PropTypes.string
+};
+
+Date.propTypes = {
+  date: PropTypes.string
+};
+
+Title.propTypes = {
+  title: PropTypes.string
+};
+
+Subject.propTypes = {
+  subject: PropTypes.string
+};
+
+ReactDOM.render(
+  <Email info={ testEmail } />,
+  document.getElementById('root')
+);
